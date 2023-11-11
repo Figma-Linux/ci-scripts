@@ -8,11 +8,14 @@
   "author": "Chugunov Roman",
   "license": "ISC",
   "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^20.9.0",
     "@types/xml2js": "^0.4.14",
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "dayjs": "^1.11.10",
+    "js-yaml": "^4.1.0",
     "xml2js": "^0.6.2"
   }
 }
