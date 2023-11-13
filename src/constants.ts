@@ -1,5 +1,6 @@
 export enum EnumInputs {
   Action = "action",
+  Token = "token",
 }
 
 export enum ActionInput {

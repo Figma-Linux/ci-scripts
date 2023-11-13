@@ -1,6 +1,6 @@
 import * as core from "@actions/core";
-import ActionManager from "./actions/Manager";
-import InputExtractor from "./inputExtractor";
+import ActionManager from "./ActionManager";
+import InputExtractor from "./InputExtractor";
 import { Inputs } from "./types";
 
 export default class {
@@ -10,12 +10,17 @@ export default class {
     private actionManager: ActionManager,
     private inputExtractor: InputExtractor
   ) {
-    this.inputs = this.inputExtractor.getInputs();
+    this.inputs = this.inputExtractor.inputs;
+
+    this.handleEvents();
   }
 
   public async start() {
     try {
-      await this.actionManager.getAction(this.inputs.action).run();
+      this.actionManager.type = this.inputs.action;
+      this.actionManager.token = this.inputs.token;
+
+      await this.actionManager.getAction().run();
     } catch (e) {
       const error = e as Error;
       core.error(
@@ -28,5 +33,14 @@ export default class {
         })}`
       );
     }
+  }
+
+  private handleEvents() {
+    process.on("uncaughtException", (error: Error) => {
+      core.error(error);
+    });
+    process.on("unhandledRejection", (error: Error) => {
+      core.error(error);
+    });
   }
 }

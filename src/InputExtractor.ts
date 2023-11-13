@@ -3,10 +3,11 @@ import { EnumInputs, ActionInput } from "./constants";
 import { Inputs } from "./types";
 
 export default class {
-  constructor() {}
+  private _inputs: Inputs;
 
-  public getInputs(): Inputs {
+  constructor() {
     const actionStr = core.getInput(EnumInputs.Action);
+    const token = core.getInput(EnumInputs.Token);
 
     if (!ActionInput[actionStr as keyof typeof ActionInput]) {
       core.setFailed(
@@ -15,9 +16,17 @@ export default class {
         )}`
       );
     }
+    if (!token || token === "") {
+      core.setFailed(`Github token will not provided!`);
+    }
 
-    return {
+    this._inputs = {
       action: actionStr as ActionInput,
+      token,
     };
+  }
+
+  public get inputs(): Inputs {
+    return this._inputs;
   }
 }
