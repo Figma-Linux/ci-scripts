@@ -1,7 +1,7 @@
 import BaseClient from "../utils/BaseClient";
 
-export default class {
+export default abstract class {
   public constructor(protected baseClient: BaseClient) {}
 
-  public async run() {}
+  abstract run(): void;
 }

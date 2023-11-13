@@ -1,7 +1,8 @@
-export default class {
+export default abstract class {
   public constructor(protected token: string) {}
 
-  public async getFigmaLinuxLatestTag() {}
-  public async createPR() {}
-  public async clone() {}
+  abstract getFigmaLinuxLatestTag(): Promise<string>;
+  abstract createPR(): Promise<void>;
+  abstract clone(url: string, to: string): Promise<void>;
+  abstract downloadReleaseFile(tag: string, reg: RegExp): Promise<void>;
 }

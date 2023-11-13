@@ -4,3 +4,8 @@ export interface Inputs {
   [EnumInputs.Action]: ActionInput;
   [EnumInputs.Token]: string;
 }
+
+export interface DownloadFile {
+  name: string;
+  url: string;
+}

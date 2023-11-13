@@ -1,4 +1,4 @@
-import * as core from "@actions/core";
+import * as Core from "@actions/core";
 import ActionManager from "./ActionManager";
 import InputExtractor from "./InputExtractor";
 import { Inputs } from "./types";
@@ -17,13 +17,19 @@ export default class {
 
   public async start() {
     try {
+      Core.info(
+        `Start figma-linux-actions, CWD: ${process.cwd()}, __dirname: ${__dirname}, start action: ${
+          this.inputs.action
+        }`
+      );
+
       this.actionManager.type = this.inputs.action;
       this.actionManager.token = this.inputs.token;
 
       await this.actionManager.getAction().run();
     } catch (e) {
       const error = e as Error;
-      core.error(
+      Core.error(
         `Error occur: ${error.message} in action: ${
           this.inputs.action
         }, trace: ${JSON.stringify({
@@ -37,10 +43,10 @@ export default class {
 
   private handleEvents() {
     process.on("uncaughtException", (error: Error) => {
-      core.error(error);
+      Core.error(error);
     });
     process.on("unhandledRejection", (error: Error) => {
-      core.error(error);
+      Core.error(error);
     });
   }
 }

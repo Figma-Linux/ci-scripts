@@ -1,3 +1,9 @@
+import { resolve } from "path";
+
+export const FIGMA_REPO = "figma-linux";
+export const FIGMA_REPO_OWNER = "Figma-linux";
+export const FILES_DIR = resolve(process.cwd(), "./files");
+
 export enum EnumInputs {
   Action = "action",
   Token = "token",
