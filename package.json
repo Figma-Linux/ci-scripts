@@ -1,9 +1,9 @@
 {
-  "name": "ci-scripts",
+  "name": "figma-linux-actions",
   "version": "1.0.0",
   "description": "Helper scripts using by workflow",
   "scripts": {
-    "build": "tsc"
+    "build": "ncc build src/index.ts && esbuild dist/index.js --minify --outfile=dist/index.js --allow-overwrite"
   },
   "author": "Chugunov Roman",
   "license": "ISC",
@@ -11,9 +11,13 @@
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^20.9.0",
     "@types/xml2js": "^0.4.14",
+    "@vercel/ncc": "^0.38.1",
+    "esbuild": "^0.19.5",
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "@actions/core": "^1.10.1",
+    "@actions/glob": "^0.4.0",
     "dayjs": "^1.11.10",
     "js-yaml": "^4.1.0",
     "xml2js": "^0.6.2"

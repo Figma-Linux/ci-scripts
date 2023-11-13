@@ -1,0 +1,15 @@
+name: "Figma Linux Actions"
+description: "Update flatpak, aur repositories"
+author: "ChugunovRoman"
+inputs:
+  action:
+    type: choice
+    description: "What need to run"
+    required: true
+    options:
+      - publish_launchpad
+      - publish_flatpak
+      - publish_aur
+runs:
+  using: "node20"
+  main: "dist/index.js"
