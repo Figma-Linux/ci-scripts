@@ -1,9 +1,10 @@
 import * as fs from "fs";
+import * as path from "path";
 import * as jsYaml from "js-yaml";
 import * as Exec from "@actions/exec";
 import ActionFlatpak from "../../src/actions/ActionFlatpak";
 import Git from "../../src/Git";
-import { FILES_DIR } from "../../src/constants";
+import { FILES_DIR, FLATPAK_REPO_DEST } from "../../src/constants";
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN as string;
 const fsWriteFileSpy = jest.spyOn(fs.promises, "writeFile");
@@ -20,7 +21,7 @@ const files = [
   },
 ];
 
-describe("ActionFlatpak", () => {
+describe("Test ActionFlatpak", () => {
   if (!GITHUB_TOKEN || GITHUB_TOKEN === "") {
     throw new Error(`env var GITHUB_TOKEN will not provided!`);
   }
@@ -69,6 +70,13 @@ describe("ActionFlatpak", () => {
         }
       ),
     ]);
+    await fs.promises.rm(
+      path.resolve(process.cwd(), `../${FLATPAK_REPO_DEST}`),
+      {
+        force: true,
+        recursive: true,
+      }
+    );
 
     expect(ymlDumpSpy).toHaveBeenCalledTimes(1);
     expect(ymlDumpSpy.mock.calls[0][0].modules[0].sources[0].url).toEqual(

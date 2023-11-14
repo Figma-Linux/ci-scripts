@@ -7,14 +7,14 @@ import { Builder, parseStringPromise } from "xml2js";
 import BaseAction from "../utils/BaseAction";
 import {
   FILES_DIR,
-  FLATPAK_DEST,
+  FLATPAK_REPO_DEST,
   FLATPAK_FILES_REGEXP,
   FLATPAK_REPO_URL,
 } from "../../src/constants";
 
 export default class extends BaseAction {
   public async run() {
-    const dest = `../${FLATPAK_DEST}`;
+    const dest = `../${FLATPAK_REPO_DEST}`;
     const { ymlFilePath, xmlFilePath, releaseNotesFilePath } =
       this.getPaths(dest);
     const tag = await this.baseClient.getFigmaLinuxLatestTag();
@@ -89,11 +89,15 @@ export default class extends BaseAction {
     await Promise.all([
       fs.promises.writeFile(xmlFilePath, xml, {
         encoding: "utf-8",
+        flag: "w",
       }),
       fs.promises.writeFile(ymlFilePath, jsYaml.dump(ymlJson), {
         encoding: "utf-8",
+        flag: "w",
       }),
     ]);
+
+    // TODO: push to repo
   }
 
   private getPaths(dest: string) {

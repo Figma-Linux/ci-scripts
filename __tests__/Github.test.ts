@@ -1,7 +1,7 @@
 import Git from "../src/Git";
+import { TAG_REGEXP } from "../src/constants";
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN as string;
-const tagReg = /^v[0-9]{1,5}\.[0-9]{1,5}\.[0-9]{1,5}$/;
 
 describe("Github", () => {
   if (!GITHUB_TOKEN || GITHUB_TOKEN === "") {
@@ -14,7 +14,7 @@ describe("Github", () => {
 
     console.log("Figma Linux latest tag: ", result);
 
-    expect(tagReg.test(result)).toEqual(true);
+    expect(TAG_REGEXP.test(result)).toEqual(true);
   });
 
   it.skip("Clone repo", async () => {
