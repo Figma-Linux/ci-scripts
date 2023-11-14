@@ -30,17 +30,14 @@ export default class extends BaseClient {
     await Exec.exec("git", ["clone", url, resolve(process.cwd(), to)]);
   }
 
-  public async downloadReleaseFile(tag: string, reg: RegExp): Promise<void> {
+  public async downloadReleaseFile(
+    tag: string,
+    reg: RegExp
+  ): Promise<DownloadFile[]> {
     const release = await this.client.rest.repos.getReleaseByTag({
       tag,
       owner: FIGMA_REPO_OWNER,
       repo: FIGMA_REPO,
-    });
-
-    this.client.rest.repos.getContent({
-      owner: FIGMA_REPO_OWNER,
-      repo: FIGMA_REPO,
-      path: "",
     });
 
     const files: DownloadFile[] = [];
@@ -59,7 +56,7 @@ export default class extends BaseClient {
           files
         )}`
       );
-      return;
+      return [];
     }
 
     const promises: Promise<unknown>[] = [];
@@ -83,6 +80,8 @@ export default class extends BaseClient {
     }
 
     await Promise.all(promises);
+
+    return files;
   }
 
   private async DownloadFileToDest(
