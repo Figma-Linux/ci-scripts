@@ -30,7 +30,8 @@ export default class FigmaBinPkgBuild extends BaseGenerator {
     const { pkgver, pkgrel, arch, ...rest } = cfg;
     this._config = {
       // https://wiki.archlinux.org/title/PKGBUILD
-      pkgname: "figma-linux-bin",
+      _pkgname: "figma-linux",
+      pkgname: "${_pkgname}-bin",
       pkgver,
       pkgrel,
       pkgdesc:
@@ -43,6 +44,7 @@ export default class FigmaBinPkgBuild extends BaseGenerator {
       conflicts: ["figma-linux", "figma-linux-git"],
       // https://man.archlinux.org/man/PKGBUILD.5#OPTIONS_AND_DIRECTIVES
       options: ["!strip"],
+      provides: ["${_pkgname}"],
       ...rest,
     };
   }
@@ -54,22 +56,22 @@ export default class FigmaBinPkgBuild extends BaseGenerator {
     return `package() {
   cd "\${srcdir}"
 
-  install -D "\${srcdir}"/figma-linux.desktop "\${pkgdir}"/usr/share/applications/figma-linux.desktop
-  install -D "\${srcdir}"/256x256.png "\${pkgdir}"/usr/share/pixmaps/figma-linux.png
+  install -D "\${srcdir}"/\${_pkgname}.desktop "\${pkgdir}"/usr/share/applications/\${_pkgname}.desktop
+  install -D "\${srcdir}"/256x256.png "\${pkgdir}"/usr/share/pixmaps/\${_pkgname}.png
 
   for size in 24 36 48 64 72 96 128 192 256 384 512; do
     install -D "\${srcdir}/\${size}x\${size}.png" \\
-                "\${pkgdir}/usr/share/icons/hicolor/\${size}x\${size}/apps/figma-linux.png"
+                "\${pkgdir}/usr/share/icons/hicolor/\${size}x\${size}/apps/\${_pkgname}.png"
   done
 
-  mkdir -p "\${pkgdir}/opt/\${pkgname}"
-  cp -rf ./* "\${pkgdir}/opt/\${pkgname}"
+  mkdir -p "\${pkgdir}/opt/\${_pkgname}"
+  cp -rf ./* "\${pkgdir}/opt/\${_pkgname}"
+  chmod 755 "\${pkgdir}/opt/\${_pkgname}/\${_pkgname}"
 
   mkdir -p "\${pkgdir}/usr/bin"
-  chmod 755 "/opt/\${pkgname}/figma-linux"
-  ln -s "/opt/\${pkgname}/figma-linux" "\${pkgdir}/usr/bin/figma-linux"
+  ln -s "/opt/\${_pkgname}/\${_pkgname}" "\${pkgdir}/usr/bin/\${_pkgname}"
 
-  xdg-mime default figma-linux.desktop x-scheme-handler/figma
+  xdg-mime default \${_pkgname}.desktop x-scheme-handler/figma
 }`;
   }
 }

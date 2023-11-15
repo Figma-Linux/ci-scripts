@@ -13,11 +13,11 @@ const ymlDumpSpy = jest.spyOn(jsYaml, "dump");
 const files = [
   {
     name: "figma-linux_0.11.0_linux_amd64.deb",
-    url: "https://github.com/Figma-Linux/figma-linux/releases/download/v0.10.0/figma-linux_0.10.0_linux_amd64.deb",
+    url: "https://github.com/Figma-Linux/figma-linux/releases/download/v0.11.0/figma-linux_0.11.0_linux_amd64.deb",
   },
   {
     name: "figma-linux_0.11.0_linux_arm64.deb",
-    url: "https://github.com/Figma-Linux/figma-linux/releases/download/v0.10.0/figma-linux_0.10.0_linux_arm64.deb",
+    url: "https://github.com/Figma-Linux/figma-linux/releases/download/v0.11.0/figma-linux_0.11.0_linux_arm64.deb",
   },
 ];
 
@@ -28,7 +28,7 @@ describe("Test ActionFlatpak", () => {
 
   beforeEach(() => {});
 
-  it("run", async () => {
+  it("test run", async () => {
     const flatpak = new ActionFlatpak(new Git(GITHUB_TOKEN));
     fsWriteFileSpy.mockImplementation(
       (path: any, data: any) => new Promise((res, rej) => res())

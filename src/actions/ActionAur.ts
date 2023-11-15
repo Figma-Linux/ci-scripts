@@ -7,8 +7,8 @@ import BaseClient from "../utils/BaseClient";
 import BaseAction from "../utils/BaseAction";
 import BaseGenerator from "../utils/Generators";
 import {
-  AUR_REPO_BIN_DEST,
-  AUR_REPO_BIN_URL,
+  AUR_REPO_DEST,
+  AUR_REPO_URL,
   AUR_BIN_FILES_REGEXP,
   AUR_SKIP_FILES_REGEXP,
   VERSION_REGEXP,
@@ -26,10 +26,12 @@ export default class extends BaseAction {
   }
 
   public async run() {
-    const aurRepoRootPath = `../${AUR_REPO_BIN_DEST}`;
+    const aurRepoRootPath = `../${AUR_REPO_DEST}`;
     const aurRepoRoot = resolve(process.cwd(), aurRepoRootPath);
     const tag = await this.baseClient.getFigmaLinuxLatestTag();
     const newVersion = tag.replace("v", "");
+
+    Core.info(`Env vars: ${JSON.stringify(process.env)}`);
 
     const { pkgver, pkgrel } = await this.getCurrentInfo(aurRepoRoot);
     let newPkgrel = 0;
@@ -50,7 +52,7 @@ export default class extends BaseAction {
       force: true,
       recursive: true,
     });
-    await this.baseClient.clone(AUR_REPO_BIN_URL, aurRepoRootPath);
+    await this.baseClient.clone(AUR_REPO_URL, aurRepoRootPath);
 
     const repoFiles = (await fs.promises.readdir(aurRepoRoot)).map(
       (f) => `${aurRepoRoot}/${f}`
@@ -62,12 +64,13 @@ export default class extends BaseAction {
       await this.getSums(downloadFiles.map((f) => `${FILES_DIR}/${f.name}`));
 
     const config: BaseConfig = {
+      pkgname: "figma-linux",
       pkgver: newVersion,
       pkgrel: newPkgrel + "",
       arch: ["x86_64", "aarch64"],
       source: sources,
       sha256sums,
-      conflicts: ["figma-linux", "figma-linux-git", "figma-linux-git-dev"],
+      conflicts: ["figma-linux-git", "figma-linux-bin", "figma-linux-git-dev"],
     };
 
     sourcesApp.forEach((file, index) => {
@@ -82,7 +85,10 @@ export default class extends BaseAction {
     });
 
     this.pkgGenerator.config = config;
-    this.srcInfoGenerator.config = config;
+    this.srcInfoGenerator.config = {
+      ...config,
+      pkgbase: config.pkgname,
+    };
 
     const pkgBuffer = this.pkgGenerator.generate();
     const srcInfoBuffer = this.srcInfoGenerator.generate();

@@ -9,8 +9,10 @@ inputs:
     options:
       - publish_launchpad
       - publish_flatpak
+      - publish_aur
       - publish_aur_bin
       - publish_aur_git
+      - publish_aur_git_dev
   token:
     required: true
     description: "Github token"

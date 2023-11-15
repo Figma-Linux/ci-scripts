@@ -1,7 +1,7 @@
 import BaseGenerator, { BaseConfig } from ".";
 import SrcInfo from "../Builders/SrcInfo";
 
-export default class FigmaBinSrcInfo extends BaseGenerator {
+export default class FigmaGitSrcInfo extends BaseGenerator {
   constructor() {
     super(new SrcInfo());
   }
@@ -9,7 +9,7 @@ export default class FigmaBinSrcInfo extends BaseGenerator {
   public generate(): Buffer {
     if (!this.config) {
       throw new Error(
-        `Errror in FigmaBinSrcInfo.generate(), config was not been passed!`
+        `Errror in FigmaGitSrcInfo.generate(), config was not been passed!`
       );
     }
 
@@ -30,9 +30,9 @@ export default class FigmaBinSrcInfo extends BaseGenerator {
   public set config(cfg: BaseConfig) {
     const { pkgver, pkgrel, arch, ...rest } = cfg;
     this._config = {
-      // https://wiki.archlinux.org/title/PKGBUILD
-      pkgbase: "figma-linux-bin",
-      pkgname: "figma-linux-bin",
+      // https://wiki.archlinux.org/3title/PKGBUILD
+      pkgbase: "figma-linux-git",
+      pkgname: "figma-linux-git",
       pkgver,
       pkgrel,
       pkgdesc:
@@ -41,10 +41,8 @@ export default class FigmaBinSrcInfo extends BaseGenerator {
       arch,
       license: ["GPL2"],
       depends: ["hicolor-icon-theme"],
-      makedepends: ["unzip", "xdg-utils"],
+      makedepends: ["git", "nodejs>=18.11.18", "npm>=9.8.1", "xdg-utils"],
       conflicts: ["figma-linux", "figma-linux-git"],
-      // https://man.archlinux.org/man/PKGBUILD.5#OPTIONS_AND_DIRECTIVES
-      options: ["!strip"],
       provides: ["figma-linux"],
       ...rest,
     };

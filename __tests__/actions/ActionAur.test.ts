@@ -2,10 +2,10 @@ import * as fs from "fs";
 import * as path from "path";
 import * as Exec from "@actions/exec";
 import Git from "../../src/Git";
-import ActionAurBin from "../../src/actions/ActionAurBin";
+import ActionAur from "../../src/actions/ActionAur";
 import FigmaBinPkgBuild from "../../src/utils/Generators/FigmaBinPkgBuild";
 import FigmaBinSrcInfo from "../../src/utils/Generators/FigmaBinSrcInfo";
-import { FILES_DIR, AUR_REPO_BIN_DEST } from "../../src/constants";
+import { FILES_DIR, AUR_REPO_DEST } from "../../src/constants";
 import { BaseConfig } from "../../src/utils/Generators";
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN as string;
@@ -30,7 +30,7 @@ describe("Test ActionAurBin", () => {
 
   afterAll(() => {
     // await fs.promises.rm(
-    //   path.resolve(process.cwd(), `../${AUR_REPO_BIN_DEST}`),
+    //   path.resolve(process.cwd(), `../${AUR_REPO_DEST}`),
     //   {
     //     force: true,
     //     recursive: true,
@@ -38,10 +38,10 @@ describe("Test ActionAurBin", () => {
     // );
   });
 
-  it("test run", async () => {
+  it("run", async () => {
     const pkgGenerator = new FigmaBinPkgBuild();
     const srcInfoGenerator = new FigmaBinSrcInfo();
-    const aurBin = new ActionAurBin(
+    const aurBin = new ActionAur(
       new Git(GITHUB_TOKEN),
       pkgGenerator,
       srcInfoGenerator
@@ -108,7 +108,7 @@ describe("Test ActionAurBin", () => {
       ),
       Exec.exec(
         "sha256sum",
-        [path.resolve(process.cwd(), `../${AUR_REPO_BIN_DEST}`, "96x96.png")],
+        [path.resolve(process.cwd(), `../${AUR_REPO_DEST}`, "96x96.png")],
         {
           listeners: {
             stdout: (data: Buffer) => (sha1 = data.toString().split(" ")[0]),
@@ -119,7 +119,7 @@ describe("Test ActionAurBin", () => {
       ),
       Exec.exec(
         "sha256sum",
-        [path.resolve(process.cwd(), `../${AUR_REPO_BIN_DEST}`, "384x384.png")],
+        [path.resolve(process.cwd(), `../${AUR_REPO_DEST}`, "384x384.png")],
         {
           listeners: {
             stdout: (data: Buffer) => (sha2 = data.toString().split(" ")[0]),
@@ -133,7 +133,7 @@ describe("Test ActionAurBin", () => {
         [
           path.resolve(
             process.cwd(),
-            `../${AUR_REPO_BIN_DEST}`,
+            `../${AUR_REPO_DEST}`,
             "figma-linux.desktop"
           ),
         ],
@@ -150,7 +150,8 @@ describe("Test ActionAurBin", () => {
       ),
     ]);
 
-    const config: BaseConfig = {
+    const pkgConfig: BaseConfig = {
+      pkgname: "figma-linux",
       pkgver: "0.11.0",
       pkgrel: "0",
       arch: ["x86_64", "aarch64"],
@@ -165,104 +166,108 @@ describe("Test ActionAurBin", () => {
       sha256sums_x86_64: [sha256Amd64],
       sha256sums_aarch64: [sha256Arm64],
     };
+    const srcInfoConfig: BaseConfig = {
+      ...pkgConfig,
+      pkgbase: "figma-linux",
+    };
 
     expect(pkgGenerator.config).toMatchObject({
-      _pkgname: "figma-linux",
-      pkgname: "${_pkgname}-bin",
+      pkgname: "figma-linux",
       pkgdesc:
         "The collaborative interface design tool. Unofficial Figma desktop client for Linux",
       url: "https://github.com/Figma-Linux/figma-linux",
       license: ["GPL2"],
       depends: ["hicolor-icon-theme"],
       makedepends: ["unzip", "xdg-utils"],
-      conflicts: ["figma-linux", "figma-linux-git", "figma-linux-git-dev"],
+      conflicts: ["figma-linux-git", "figma-linux-bin", "figma-linux-git-dev"],
       options: ["!strip"],
       provides: ["${_pkgname}"],
-      ...config,
+      ...pkgConfig,
     });
     expect(srcInfoGenerator.config).toMatchObject({
-      pkgbase: "figma-linux-bin",
+      pkgbase: "figma-linux",
+      pkgname: "figma-linux",
       pkgdesc:
         "The collaborative interface design tool. Unofficial Figma desktop client for Linux",
       url: "https://github.com/Figma-Linux/figma-linux",
       license: ["GPL2"],
       depends: ["hicolor-icon-theme"],
       makedepends: ["unzip", "xdg-utils"],
-      conflicts: ["figma-linux", "figma-linux-git", "figma-linux-git-dev"],
+      conflicts: ["figma-linux-git", "figma-linux-bin", "figma-linux-git-dev"],
       options: ["!strip"],
       provides: ["figma-linux"],
-      ...config,
+      ...srcInfoConfig,
     });
 
     // expect(fsWriteFileSpy).toHaveBeenCalledTimes(2);
   });
 
-  describe("test getArchFromName", () => {
-    it("test getArchFromName - figma-linux_0.11.0_linux_aarch64.pacman", async () => {
-      const result = (ActionAurBin.prototype as any).getArchFromName(
+  describe("getArchFromName", () => {
+    it("getArchFromName - figma-linux_0.11.0_linux_aarch64.pacman", async () => {
+      const result = (ActionAur.prototype as any).getArchFromName(
         `${process.cwd()}/figma-linux_0.11.0_linux_aarch64.pacman`
       );
 
       expect(result).toEqual("aarch64");
     });
-    it("test getArchFromName - figma-linux_0.11.0_linux_aarch64.rpm", async () => {
-      const result = (ActionAurBin.prototype as any).getArchFromName(
+    it("getArchFromName - figma-linux_0.11.0_linux_aarch64.rpm", async () => {
+      const result = (ActionAur.prototype as any).getArchFromName(
         `${process.cwd()}/figma-linux_0.11.0_linux_aarch64.rpm`
       );
 
       expect(result).toEqual("aarch64");
     });
-    it("test getArchFromName - figma-linux_0.11.0_linux_amd64.deb", async () => {
-      const result = (ActionAurBin.prototype as any).getArchFromName(
+    it("getArchFromName - figma-linux_0.11.0_linux_amd64.deb", async () => {
+      const result = (ActionAur.prototype as any).getArchFromName(
         `${process.cwd()}/figma-linux_0.11.0_linux_amd64.deb`
       );
 
       expect(result).toEqual("x86_64");
     });
-    it("test getArchFromName - figma-linux_0.11.0_linux_amd64.zip", async () => {
-      const result = (ActionAurBin.prototype as any).getArchFromName(
+    it("getArchFromName - figma-linux_0.11.0_linux_amd64.zip", async () => {
+      const result = (ActionAur.prototype as any).getArchFromName(
         `${process.cwd()}/figma-linux_0.11.0_linux_amd64.zip`
       );
 
       expect(result).toEqual("x86_64");
     });
-    it("test getArchFromName - figma-linux_0.11.0_linux_arm64.AppImage", async () => {
-      const result = (ActionAurBin.prototype as any).getArchFromName(
+    it("getArchFromName - figma-linux_0.11.0_linux_arm64.AppImage", async () => {
+      const result = (ActionAur.prototype as any).getArchFromName(
         `${process.cwd()}/figma-linux_0.11.0_linux_arm64.AppImage`
       );
 
       expect(result).toEqual("aarch64");
     });
-    it("test getArchFromName - figma-linux_0.11.0_linux_arm64.deb", async () => {
-      const result = (ActionAurBin.prototype as any).getArchFromName(
+    it("getArchFromName - figma-linux_0.11.0_linux_arm64.deb", async () => {
+      const result = (ActionAur.prototype as any).getArchFromName(
         `${process.cwd()}/figma-linux_0.11.0_linux_arm64.deb`
       );
 
       expect(result).toEqual("aarch64");
     });
-    it("test getArchFromName - figma-linux_0.11.0_linux_arm64.zip", async () => {
-      const result = (ActionAurBin.prototype as any).getArchFromName(
+    it("getArchFromName - figma-linux_0.11.0_linux_arm64.zip", async () => {
+      const result = (ActionAur.prototype as any).getArchFromName(
         `${process.cwd()}/figma-linux_0.11.0_linux_arm64.zip`
       );
 
       expect(result).toEqual("aarch64");
     });
-    it("test getArchFromName - figma-linux_0.11.0_linux_x64.pacman", async () => {
-      const result = (ActionAurBin.prototype as any).getArchFromName(
+    it("getArchFromName - figma-linux_0.11.0_linux_x64.pacman", async () => {
+      const result = (ActionAur.prototype as any).getArchFromName(
         `${process.cwd()}/figma-linux_0.11.0_linux_x64.pacman`
       );
 
       expect(result).toEqual("x86_64");
     });
-    it("test getArchFromName - figma-linux_0.11.0_linux_x86_64.AppImage", async () => {
-      const result = (ActionAurBin.prototype as any).getArchFromName(
+    it("getArchFromName - figma-linux_0.11.0_linux_x86_64.AppImage", async () => {
+      const result = (ActionAur.prototype as any).getArchFromName(
         `${process.cwd()}/figma-linux_0.11.0_linux_x86_64.AppImage`
       );
 
       expect(result).toEqual("x86_64");
     });
-    it("test getArchFromName - figma-linux_0.11.0_linux_x86_64.rpm", async () => {
-      const result = (ActionAurBin.prototype as any).getArchFromName(
+    it("getArchFromName - figma-linux_0.11.0_linux_x86_64.rpm", async () => {
+      const result = (ActionAur.prototype as any).getArchFromName(
         `${process.cwd()}/figma-linux_0.11.0_linux_x86_64.rpm`
       );
 
@@ -270,8 +275,8 @@ describe("Test ActionAurBin", () => {
     });
   });
 
-  it("test getCurrentInfo", async () => {
-    const result = await (ActionAurBin.prototype as any).getCurrentInfo(
+  it("getCurrentInfo", async () => {
+    const result = await (ActionAur.prototype as any).getCurrentInfo(
       `${process.cwd()}/testData/aur`
     );
 

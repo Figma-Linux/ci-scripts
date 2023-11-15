@@ -97,7 +97,7 @@ export default class extends BaseAction {
       }),
     ]);
 
-    // TODO: push to repo
+    // TODO: push to repo and create PR
   }
 
   private getPaths(dest: string) {
