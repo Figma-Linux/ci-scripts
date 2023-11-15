@@ -9,12 +9,7 @@ export default class {
     const actionStr = Core.getInput(EnumInputs.Action);
     const token = Core.getInput(EnumInputs.Token);
 
-    Core.info(
-      `InputExtractor: actionStr=${actionStr}, ${
-        ActionInput[actionStr as keyof typeof ActionInput]
-      }, `
-    );
-    if (!ActionInput[actionStr as keyof typeof ActionInput]) {
+    if (!Object.values(ActionInput).includes(actionStr as ActionInput)) {
       Core.setFailed(
         `Unknow action: ${actionStr} input. Available actions: ${Object.values(
           ActionInput
