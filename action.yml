@@ -1,6 +1,9 @@
 name: "Figma Linux Actions"
 description: "Update flatpak, aur repositories"
 author: "ChugunovRoman"
+branding:
+  icon: "figma"
+  color: "green"
 inputs:
   action:
     type: choice
