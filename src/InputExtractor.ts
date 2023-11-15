@@ -1,4 +1,4 @@
-import * as core from "@actions/core";
+import * as Core from "@actions/core";
 import { EnumInputs, ActionInput } from "./constants";
 import { Inputs } from "./types";
 
@@ -6,18 +6,23 @@ export default class {
   private _inputs: Inputs;
 
   constructor() {
-    const actionStr = core.getInput(EnumInputs.Action);
-    const token = core.getInput(EnumInputs.Token);
+    const actionStr = Core.getInput(EnumInputs.Action);
+    const token = Core.getInput(EnumInputs.Token);
 
+    Core.info(
+      `InputExtractor: actionStr=${actionStr}, ${
+        ActionInput[actionStr as keyof typeof ActionInput]
+      }, `
+    );
     if (!ActionInput[actionStr as keyof typeof ActionInput]) {
-      core.setFailed(
+      Core.setFailed(
         `Unknow action: ${actionStr} input. Available actions: ${Object.values(
-          EnumInputs
+          ActionInput
         )}`
       );
     }
     if (!token || token === "") {
-      core.setFailed(`Github token will not provided!`);
+      Core.setFailed(`Github token will not provided!`);
     }
 
     this._inputs = {
