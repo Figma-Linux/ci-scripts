@@ -26,7 +26,7 @@ export default class extends BaseAction {
   }
 
   public async run() {
-    const aurRepoRootPath = `../${AUR_REPO_DEST}`;
+    const aurRepoRootPath = AUR_REPO_DEST;
     const aurRepoRoot = resolve(process.cwd(), aurRepoRootPath);
     const tag = await this.baseClient.getFigmaLinuxLatestTag();
     const newVersion = tag.replace("v", "");

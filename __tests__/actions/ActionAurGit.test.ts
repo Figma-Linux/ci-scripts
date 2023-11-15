@@ -4,12 +4,13 @@ import Git from "../../src/Git";
 import ActionAurGit from "../../src/actions/ActionAurGit";
 import FigmaGitPkgBuild from "../../src/utils/Generators/FigmaGitPkgBuild";
 import FigmaGitSrcInfo from "../../src/utils/Generators/FigmaGitSrcInfo";
-import { MAIN_REPO_DEST } from "../../src/constants";
+import { MAIN_REPO_DEST, AUR_REPO_GIT_DEST } from "../../src/constants";
 import { BaseConfig } from "../../src/utils/Generators";
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN as string;
 // const fsWriteFileSpy = jest.spyOn(fs.promises, "writeFile");
 (MAIN_REPO_DEST as any) = path.resolve(process.cwd(), "..", "figma-linux");
+(AUR_REPO_GIT_DEST as any) = `../${AUR_REPO_GIT_DEST}`;
 
 describe("Test ActionAurGit", () => {
   if (!GITHUB_TOKEN || GITHUB_TOKEN === "") {

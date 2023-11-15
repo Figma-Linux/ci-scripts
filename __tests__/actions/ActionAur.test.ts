@@ -11,6 +11,7 @@ import { BaseConfig } from "../../src/utils/Generators";
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN as string;
 // const fsWriteFileSpy = jest.spyOn(fs.promises, "writeFile");
 const fsReaddirSpy = jest.spyOn(fs.promises, "readdir");
+(AUR_REPO_DEST as any) = `../${AUR_REPO_DEST}`;
 
 const files = [
   {
@@ -108,7 +109,7 @@ describe("Test ActionAurBin", () => {
       ),
       Exec.exec(
         "sha256sum",
-        [path.resolve(process.cwd(), `../${AUR_REPO_DEST}`, "96x96.png")],
+        [path.resolve(process.cwd(), AUR_REPO_DEST, "96x96.png")],
         {
           listeners: {
             stdout: (data: Buffer) => (sha1 = data.toString().split(" ")[0]),
@@ -119,7 +120,7 @@ describe("Test ActionAurBin", () => {
       ),
       Exec.exec(
         "sha256sum",
-        [path.resolve(process.cwd(), `../${AUR_REPO_DEST}`, "384x384.png")],
+        [path.resolve(process.cwd(), AUR_REPO_DEST, "384x384.png")],
         {
           listeners: {
             stdout: (data: Buffer) => (sha2 = data.toString().split(" ")[0]),
@@ -130,13 +131,7 @@ describe("Test ActionAurBin", () => {
       ),
       Exec.exec(
         "sha256sum",
-        [
-          path.resolve(
-            process.cwd(),
-            `../${AUR_REPO_DEST}`,
-            "figma-linux.desktop"
-          ),
-        ],
+        [path.resolve(process.cwd(), AUR_REPO_DEST, "figma-linux.desktop")],
         {
           listeners: {
             stdout: (data: Buffer) => (sha3 = data.toString().split(" ")[0]),
