@@ -23,7 +23,7 @@ jobs:
           echo "Importing SSH ley..."
           mkdir ~/.ssh
           # echo "${secrets.SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
-          echo $ID_RSA
+          env
           echo "${ID_RSA}" | base64 -d > ~/.ssh/id_rsa
           echo "Updating ~/.ssh/known_hosts..."
           ssh-keyscan aur.archlinux.org >> ~/.ssh/known_hosts
