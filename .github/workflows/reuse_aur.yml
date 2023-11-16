@@ -34,9 +34,9 @@ jobs:
           cat ~/.ssh/id_rsa
           echo "Step completed"
         env:
-          ID_RSA_JSON: ${{ toJSON(secrets.ID_RSA) }}
-          ID_RSA: ${{ secrets.ID_RSA }}
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          ID_RSA_JSON: "${{ toJSON(secrets.ID_RSA) }}"
+          ID_RSA: "${{ secrets.ID_RSA }}"
+          SSH_PRIVATE_KEY: "${{ secrets.SSH_PRIVATE_KEY }}"
 
       - name: Check SSH
         run: |
