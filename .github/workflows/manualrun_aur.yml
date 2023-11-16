@@ -4,12 +4,10 @@ on: workflow_dispatch
 
 jobs:
   setup:
-    environment: Main
     name: Setup
     uses: ./.github/workflows/reuse_setup.yml
 
   aur:
-    environment: Main
     name: Upload to AUR
     uses: ./.github/workflows/reuse_aur.yml
     needs: setup
