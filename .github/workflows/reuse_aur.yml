@@ -32,7 +32,7 @@ jobs:
           echo "Step completed"
 
       - name: Check SSH
-      - run: |
+        run: |
           echo "$ALLMYSECRETS"
           echo "$ALLMYVARS"
           cat ~/.ssh/id_rsa
