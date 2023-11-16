@@ -32,6 +32,7 @@ export default class extends BaseAction {
     const newVersion = tag.replace("v", "");
 
     Core.info(`Latest tag: ${tag}`);
+    Core.info(`CWD: ${process.cwd()}`);
     Core.info(`Env vars: ${JSON.stringify(process.env)}`);
 
     const { pkgver, pkgrel } = await this.getCurrentInfo(aurRepoRoot);

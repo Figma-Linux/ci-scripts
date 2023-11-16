@@ -10,6 +10,7 @@ jobs:
       - name: Checkout project
         uses: actions/checkout@v4
         with:
+          path: ./mainRepo
           fetch-depth: 0
 
       - uses: actions/download-artifact@v3
@@ -34,7 +35,7 @@ jobs:
 
       - name: Publish AUR
         id: figma-linux-actions
-        uses: ./
+        uses: ./mainRepo
         with:
           action: publish_aur
           token: ${{ secrets.GITHUB_TOKEN }}
