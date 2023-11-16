@@ -27,7 +27,10 @@ export default class extends BaseClient {
   }
   public async createPR() {}
   public async clone(url: string, to: string) {
-    await Exec.exec("git", ["clone", url, resolve(process.cwd(), to)]);
+    await fs.promises.mkdir(resolve(process.cwd(), to), { recursive: true });
+    await Exec.exec("git", ["clone", url, "."], {
+      cwd: resolve(process.cwd(), to),
+    });
   }
 
   public async downloadReleaseFile(

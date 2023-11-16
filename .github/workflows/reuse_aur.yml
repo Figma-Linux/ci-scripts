@@ -43,4 +43,5 @@ jobs:
       - name: Check
         run: |
           ls -la .
-          ls -la ./aur
+          ls -la ./aur || echo ""
+          find . -name "*aur*"
