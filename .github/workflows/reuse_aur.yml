@@ -32,8 +32,15 @@ jobs:
           echo "Step completed"
 
       - name: Check SSH
-        run: |
+      - run: |
+          echo "$ALLMYSECRETS"
+          echo "$ALLMYVARS"
           cat ~/.ssh/id_rsa
+          ls -la ~/.ssh/id_rsa
+        shell: bash
+        env:
+          ALLMYSECRETS: ${{ toJSON(secrets) }}
+          ALLMYVARS: ${{ toJSON(vars) }}
 
       - name: Checkout AUR
         run: |
