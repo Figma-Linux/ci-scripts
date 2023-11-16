@@ -6,8 +6,10 @@ jobs:
   setup:
     name: Setup
     uses: ./.github/workflows/reuse_setup.yml
+    secrets: inherit
 
   aur:
     name: Upload to AUR
     uses: ./.github/workflows/reuse_aur.yml
+    secrets: inherit
     needs: setup
