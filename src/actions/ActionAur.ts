@@ -54,6 +54,7 @@ export default class extends BaseAction {
       recursive: true,
     });
     try {
+      Core.info(`CLONE REPO: ${AUR_REPO_URL}, ${aurRepoRootPath}`);
       await this.baseClient.clone(AUR_REPO_URL, aurRepoRootPath);
     } catch (error) {
       Core.setFailed(
