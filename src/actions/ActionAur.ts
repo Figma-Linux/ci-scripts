@@ -34,6 +34,12 @@ export default class extends BaseAction {
     Core.info(`Latest tag: ${tag}`);
     Core.info(`Env vars: ${JSON.stringify(process.env)}`);
 
+    await fs.promises.rm(aurRepoRoot, {
+      force: true,
+      recursive: true,
+    });
+    await this.baseClient.clone(AUR_REPO_URL, aurRepoRootPath);
+
     const { pkgver, pkgrel } = await this.getCurrentInfo(aurRepoRoot);
     let newPkgrel = 0;
 
@@ -48,19 +54,6 @@ export default class extends BaseAction {
       tag,
       AUR_BIN_FILES_REGEXP
     );
-
-    await fs.promises.rm(aurRepoRoot, {
-      force: true,
-      recursive: true,
-    });
-    try {
-      Core.info(`CLONE REPO: ${AUR_REPO_URL}, ${aurRepoRootPath}`);
-      await this.baseClient.clone(AUR_REPO_URL, aurRepoRootPath);
-    } catch (error) {
-      Core.setFailed(
-        `Cannot clone AUR repo to ${aurRepoRootPath}, error: ${error}`
-      );
-    }
 
     const repoFiles = (await fs.promises.readdir(aurRepoRoot)).map(
       (f) => `${aurRepoRoot}/${f}`

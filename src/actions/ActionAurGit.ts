@@ -30,6 +30,14 @@ export default class extends BaseAction {
     const newPkgver = await this.getNewPkgver();
     let newPkgrel = "0";
 
+    Core.info(`Latest tag: ${tag}`);
+
+    await fs.promises.rm(aurRepoRoot, {
+      force: true,
+      recursive: true,
+    });
+    await this.baseClient.clone(AUR_REPO_GIT_URL, aurRepoRootPath);
+
     const { pkgver, pkgrel } = await this.getCurrentInfo(aurRepoRoot);
 
     if (pkgver.match(VERSION_REGEXP)![0] === newVersion) {
@@ -38,12 +46,6 @@ export default class extends BaseAction {
       );
       newPkgrel = +pkgrel + 1 + "";
     }
-
-    await fs.promises.rm(aurRepoRoot, {
-      force: true,
-      recursive: true,
-    });
-    await this.baseClient.clone(AUR_REPO_GIT_URL, aurRepoRootPath);
 
     const pkgConfig: BaseConfig = {
       pkgver: newPkgver,

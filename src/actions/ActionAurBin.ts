@@ -31,6 +31,14 @@ export default class extends BaseAction {
     const tag = await this.baseClient.getFigmaLinuxLatestTag();
     const newVersion = tag.replace("v", "");
 
+    Core.info(`Latest tag: ${tag}`);
+
+    await fs.promises.rm(aurRepoRoot, {
+      force: true,
+      recursive: true,
+    });
+    await this.baseClient.clone(AUR_REPO_BIN_URL, aurRepoRootPath);
+
     const { pkgver, pkgrel } = await this.getCurrentInfo(aurRepoRoot);
     let newPkgrel = 0;
 
@@ -45,12 +53,6 @@ export default class extends BaseAction {
       tag,
       AUR_BIN_FILES_REGEXP
     );
-
-    await fs.promises.rm(aurRepoRoot, {
-      force: true,
-      recursive: true,
-    });
-    await this.baseClient.clone(AUR_REPO_BIN_URL, aurRepoRootPath);
 
     const repoFiles = (await fs.promises.readdir(aurRepoRoot)).map(
       (f) => `${aurRepoRoot}/${f}`
