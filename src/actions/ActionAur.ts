@@ -31,6 +31,7 @@ export default class extends BaseAction {
     const tag = await this.baseClient.getFigmaLinuxLatestTag();
     const newVersion = tag.replace("v", "");
 
+    Core.info(`Latest tag: ${tag}`);
     Core.info(`Env vars: ${JSON.stringify(process.env)}`);
 
     const { pkgver, pkgrel } = await this.getCurrentInfo(aurRepoRoot);

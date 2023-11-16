@@ -38,3 +38,8 @@ jobs:
         with:
           action: publish_aur
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check
+        run: |
+          ls -la .
+          ls -la ./aur
