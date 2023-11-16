@@ -22,11 +22,7 @@ jobs:
         run: |
           echo "Importing SSH ley..."
           mkdir ~/.ssh
-          echo print id rsa
-          echo "${{ secrets.ID_RSA }}"
-          echo print id rsa after base64
-          echo "${{ secrets.ID_RSA }}" | base64
-          echo "${{ secrets.ID_RSA }}" | base64 -d > ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           echo "Updating ~/.ssh/known_hosts..."
           ssh-keyscan aur.archlinux.org >> ~/.ssh/known_hosts
           chmod 700 ~/.ssh
@@ -34,6 +30,10 @@ jobs:
           ls -la ~/.ssh
           cat ~/.ssh/id_rsa
           echo "Step completed"
+
+      - name: Check SSH
+        run: |
+          cat ~/.ssh/id_rsa
 
       - name: Checkout AUR
         run: |
