@@ -23,7 +23,7 @@ jobs:
 
       - uses: webfactory/ssh-agent@v0.8.0
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-private-key: ${{ secrets.ID_RSA }}
 
       - name: Import SSH key
         id: key
