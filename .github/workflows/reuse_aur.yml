@@ -25,6 +25,7 @@ jobs:
           mkdir ~/.ssh
           # echo "${secrets.SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
           echo $SECRETS
+          env
           echo "${ID_RSA}" | base64 -d > ~/.ssh/id_rsa
           echo "Updating ~/.ssh/known_hosts..."
           ssh-keyscan aur.archlinux.org >> ~/.ssh/known_hosts
