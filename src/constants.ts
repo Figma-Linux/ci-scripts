@@ -43,5 +43,5 @@ export enum ActionInput {
   PUBLISH_AUR = "publish_aur",
   PUBLISH_AUR_BIN = "publish_aur_bin",
   PUBLISH_AUR_GIT = "publish_aur_git",
-  PUBLISH_AUR_GIT_DEV = "publish_aur_git_dev",
+  PUBLISH_AUR_GIT_DEV = "publish_aur_dev_git",
 }

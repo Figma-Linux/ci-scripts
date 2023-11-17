@@ -39,5 +39,5 @@ jobs:
         id: figma-linux-actions
         uses: ./mainRepo
         with:
-          action: publish_aur
+          action: publish_aur_dev_git
           token: ${{ secrets.GITHUB_TOKEN }}
