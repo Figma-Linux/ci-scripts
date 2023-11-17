@@ -98,7 +98,7 @@ export default class extends BaseAction {
     await Exec.exec("git", ["commit", "-m", `"Publish build ${newPkgver}"`], {
       cwd: root,
     });
-    await Exec.exec("git", ["push", "--tags", "origin", "master"], {
+    await Exec.exec("git", ["push", "origin", "master"], {
       cwd: root,
     });
   }
