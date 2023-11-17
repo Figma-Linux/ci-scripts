@@ -21,7 +21,7 @@ export const AUR_REPO_GIT_URL =
 export const AUR_REPO_GIT_DEST = "aur-git";
 
 export const AUR_REPO_GIT_DEV_URL =
-  "ssh://aur@aur.archlinux.org/figma-linux-git-dev.git";
+  "ssh://aur@aur.archlinux.org/figma-linux-dev-git.git";
 export const AUR_REPO_GIT_DEV_DEST = "aur-git-dev";
 
 export const FLATPAK_FILES_REGEXP = /^figma-linux_.*_linux_.*\.deb$/;
