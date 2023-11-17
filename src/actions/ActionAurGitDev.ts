@@ -102,7 +102,7 @@ export default class extends BaseAction {
     );
     await Exec.exec(
       "git",
-      ["tab", "-a", `v${newVersion}`, "-m", `"Publish release v${newVersion}"`],
+      ["tag", "-a", `v${newVersion}`, "-m", `"Publish release v${newVersion}"`],
       { cwd: root }
     );
     await Exec.exec("git", ["psuh", "--tags", "origin", "master"], {
