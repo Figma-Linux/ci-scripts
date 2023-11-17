@@ -29,7 +29,7 @@ export default class {
       await this.actionManager.getAction().run();
     } catch (e) {
       const error = e as Error;
-      Core.error(
+      Core.setFailed(
         `Error occur: ${error.message} in action: ${
           this.inputs.action
         }, trace: ${JSON.stringify({
