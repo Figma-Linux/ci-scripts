@@ -1,5 +1,5 @@
 import * as fs from "fs";
-import * as dayjs from "dayjs";
+import dayjs from "dayjs";
 import { resolve } from "path";
 import * as crypto from "crypto";
 import * as jsYaml from "js-yaml";
@@ -66,7 +66,7 @@ export default class extends BaseAction {
     );
 
     xmlJson.component.releases[0].release.unshift({
-      $: { version: newVersion, date: (dayjs as any)().format("YYYY-MM-DD") },
+      $: { version: newVersion, date: dayjs().format("YYYY-MM-DD") },
       description: [releaseNotesJson],
     });
 

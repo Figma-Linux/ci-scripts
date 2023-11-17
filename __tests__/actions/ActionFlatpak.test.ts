@@ -1,10 +1,16 @@
 import * as fs from "fs";
+import dayjs from "dayjs";
 import * as path from "path";
 import * as jsYaml from "js-yaml";
 import * as Exec from "@actions/exec";
 import ActionFlatpak from "../../src/actions/ActionFlatpak";
 import Git from "../../src/Git";
 import { FILES_DIR, FLATPAK_REPO_DEST } from "../../src/constants";
+
+jest.mock("dayjs");
+(dayjs as any) = jest.fn().mockImplementation(() => ({
+  format: () => "2023-11-17",
+}));
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN as string;
 const fsWriteFileSpy = jest.spyOn(fs.promises, "writeFile");
