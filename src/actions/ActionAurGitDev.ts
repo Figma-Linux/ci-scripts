@@ -90,21 +90,14 @@ export default class extends BaseAction {
     await Exec.exec(`cat ${aurRepoRoot}/PKGBUILD`);
     await Exec.exec(`cat ${aurRepoRoot}/.SRCINFO`);
 
-    await this.push(newVersion, aurRepoRoot);
+    await this.push(newPkgver, aurRepoRoot);
   }
 
-  private async push(newVersion: string, root: string) {
+  private async push(newPkgver: string, root: string) {
     await Exec.exec("git", ["add", "."], { cwd: root });
-    await Exec.exec(
-      "git",
-      ["commit", "-m", `"Publish release v${newVersion}"`],
-      { cwd: root }
-    );
-    await Exec.exec(
-      "git",
-      ["tag", "-a", `v${newVersion}`, "-m", `"Publish release v${newVersion}"`],
-      { cwd: root }
-    );
+    await Exec.exec("git", ["commit", "-m", `"Publish build ${newPkgver}"`], {
+      cwd: root,
+    });
     await Exec.exec("git", ["push", "--tags", "origin", "master"], {
       cwd: root,
     });
