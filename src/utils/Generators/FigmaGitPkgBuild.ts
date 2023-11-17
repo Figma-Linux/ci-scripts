@@ -44,7 +44,6 @@ export default class FigmaGitPkgBuild extends BaseGenerator {
       license: ["GPL2"],
       depends: ["hicolor-icon-theme"],
       makedepends: ["git", "nodejs>=18.11.18", "npm>=9.8.1", "xdg-utils"],
-      conflicts: ["figma-linux", "figma-linux-bin"],
       // https://man.archlinux.org/man/PKGBUILD.5#OPTIONS_AND_DIRECTIVES
       provides: ["figma-linux"],
       ...rest,

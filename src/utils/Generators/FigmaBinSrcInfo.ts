@@ -42,7 +42,6 @@ export default class FigmaBinSrcInfo extends BaseGenerator {
       license: ["GPL2"],
       depends: ["hicolor-icon-theme"],
       makedepends: ["unzip", "xdg-utils"],
-      conflicts: ["figma-linux", "figma-linux-git"],
       // https://man.archlinux.org/man/PKGBUILD.5#OPTIONS_AND_DIRECTIVES
       options: ["!strip"],
       provides: ["figma-linux"],

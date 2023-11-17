@@ -42,7 +42,6 @@ export default class FigmaGitSrcInfo extends BaseGenerator {
       license: ["GPL2"],
       depends: ["hicolor-icon-theme"],
       makedepends: ["git", "nodejs>=18.11.18", "npm>=9.8.1", "xdg-utils"],
-      conflicts: ["figma-linux", "figma-linux-git"],
       provides: ["figma-linux"],
       ...rest,
     };
