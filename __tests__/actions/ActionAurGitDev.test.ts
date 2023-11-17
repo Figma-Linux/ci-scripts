@@ -30,7 +30,7 @@ describe("Test ActionAurGitDev", () => {
   it("test run", async () => {
     const pkgGenerator = new FigmaGitPkgBuild();
     const srcInfoGenerator = new FigmaGitSrcInfo();
-    const aurGit = new ActionAurGitDev(
+    const aurDevGit = new ActionAurGitDev(
       new Git(GITHUB_TOKEN),
       pkgGenerator,
       srcInfoGenerator
@@ -39,18 +39,19 @@ describe("Test ActionAurGitDev", () => {
     //   (path: any, data: any) => new Promise((res, rej) => res())
     // );
 
-    (aurGit as any).getCurrentInfo = jest.fn().mockResolvedValue({
+    (aurDevGit as any).getCurrentInfo = jest.fn().mockResolvedValue({
       pkgver: "0.9.6.r0.gf5dd5bf",
       pkgrel: "2",
     });
-    (aurGit as any).getNewPkgver = jest
+    (aurDevGit as any).push = jest.fn().mockResolvedValue({});
+    (aurDevGit as any).getNewPkgver = jest
       .fn()
       .mockResolvedValue("0.11.0.r37.gb297c52");
-    (aurGit as any).baseClient.getFigmaLinuxLatestTag = jest
+    (aurDevGit as any).baseClient.getFigmaLinuxLatestTag = jest
       .fn()
       .mockResolvedValue("v0.11.0");
 
-    await aurGit.run();
+    await aurDevGit.run();
 
     const config: BaseConfig = {
       pkgver: "0.11.0.r37.gb297c52",

@@ -60,6 +60,7 @@ describe("Test ActionAurBin", () => {
       pkgver: "0.9.6",
       pkgrel: "0",
     });
+    (aurBin as any).push = jest.fn().mockResolvedValue({});
     (aurBin as any).baseClient.getFigmaLinuxLatestTag = jest
       .fn()
       .mockResolvedValue("v0.11.0");

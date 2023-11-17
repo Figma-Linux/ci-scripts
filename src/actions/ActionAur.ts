@@ -108,7 +108,24 @@ export default class extends BaseAction {
     await Exec.exec(`cat ${aurRepoRoot}/PKGBUILD`);
     await Exec.exec(`cat ${aurRepoRoot}/.SRCINFO`);
 
-    // TODO: push to repo
+    await this.push(newVersion, aurRepoRoot);
+  }
+
+  private async push(newVersion: string, root: string) {
+    await Exec.exec("git", ["add", "."], { cwd: root });
+    await Exec.exec(
+      "git",
+      ["commit", "-m", `"Publish release v${newVersion}"`],
+      { cwd: root }
+    );
+    await Exec.exec(
+      "git",
+      ["tab", "-a", `v${newVersion}`, "-m", `"Publish release v${newVersion}"`],
+      { cwd: root }
+    );
+    await Exec.exec("git", ["psuh", "--tags", "origin", "master"], {
+      cwd: root,
+    });
   }
 
   private getArchFromName(filename: string): string | undefined {

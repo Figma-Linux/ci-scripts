@@ -43,6 +43,7 @@ describe("Test ActionAurGit", () => {
       pkgver: "0.9.6.r0.gf5dd5bf",
       pkgrel: "2",
     });
+    (aurGit as any).push = jest.fn().mockResolvedValue({});
     (aurGit as any).getNewPkgver = jest
       .fn()
       .mockResolvedValue("0.11.0.r37.gb297c52");
