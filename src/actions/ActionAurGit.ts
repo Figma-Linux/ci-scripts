@@ -98,7 +98,8 @@ export default class extends BaseAction {
           (newPkgver = data
             .toString()
             .substring(1)
-            .replace(/-([0-9]{1,9})-/, ".r$1.")),
+            .replace(/-([0-9]{1,9})-/, ".r$1.")
+            .replace(/\n/, "")),
       },
     });
 
