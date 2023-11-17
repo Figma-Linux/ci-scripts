@@ -4,6 +4,7 @@ import { resolve } from "path";
 import * as crypto from "crypto";
 import * as jsYaml from "js-yaml";
 import { Builder, parseStringPromise } from "xml2js";
+import * as Exec from "@actions/exec";
 import BaseAction from "../utils/BaseAction";
 import {
   FILES_DIR,
@@ -14,7 +15,7 @@ import {
 
 export default class extends BaseAction {
   public async run() {
-    const dest = `../${FLATPAK_REPO_DEST}`;
+    const dest = FLATPAK_REPO_DEST;
     const { ymlFilePath, xmlFilePath, releaseNotesFilePath } =
       this.getPaths(dest);
     const tag = await this.baseClient.getFigmaLinuxLatestTag();
@@ -97,7 +98,37 @@ export default class extends BaseAction {
       }),
     ]);
 
-    // TODO: push to repo and create PR
+    await this.push(newVersion, resolve(process.cwd(), dest));
+  }
+
+  private async push(newVersion: string, root: string) {
+    const branch = `update-to-${newVersion}`;
+
+    await Exec.exec("git", ["checkout", "-b", branch], {
+      cwd: root,
+    });
+    await Exec.exec("git", ["add", "."], { cwd: root });
+    await Exec.exec(
+      "git",
+      ["commit", "-m", `"Publish release v${newVersion}"`],
+      { cwd: root }
+    );
+    await Exec.exec(
+      "git",
+      ["tab", "-a", `v${newVersion}`, "-m", `"Publish release v${newVersion}"`],
+      { cwd: root }
+    );
+    await Exec.exec("git", ["psuh", "--tags", "origin", branch], {
+      cwd: root,
+    });
+
+    await this.baseClient.createPR({
+      title: `Update Figma Linux to ${newVersion}`,
+      owner: "flathub",
+      repo: "io.github.Figma_Linux.figma_linux",
+      sourceBranch: branch,
+      targetBranch: "master",
+    });
   }
 
   private getPaths(dest: string) {

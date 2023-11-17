@@ -4,7 +4,7 @@ import * as Core from "@actions/core";
 import * as Exec from "@actions/exec";
 import * as Octokit from "@actions/github";
 import { GitHub } from "@actions/github/lib/utils";
-import BaseClient from "./utils/BaseClient";
+import BaseClient, { CreatePRParams } from "./utils/BaseClient";
 import { FIGMA_REPO, FIGMA_REPO_OWNER, FILES_DIR } from "./constants";
 import { DownloadFile } from "./types";
 
@@ -25,7 +25,16 @@ export default class extends BaseClient {
 
     return tags.data[0].name;
   }
-  public async createPR() {}
+  public async createPR(params: CreatePRParams) {
+    await this.client.rest.pulls.create({
+      title: params.title,
+      owner: params.owner,
+      repo: params.repo,
+      head: params.sourceBranch,
+      base: params.targetBranch,
+      draft: false,
+    });
+  }
   public async clone(url: string, to: string) {
     await fs.promises.mkdir(resolve(process.cwd(), to), { recursive: true });
     await Exec.exec("git", ["clone", url, "."], {

@@ -9,6 +9,7 @@ import { FILES_DIR, FLATPAK_REPO_DEST } from "../../src/constants";
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN as string;
 const fsWriteFileSpy = jest.spyOn(fs.promises, "writeFile");
 const ymlDumpSpy = jest.spyOn(jsYaml, "dump");
+(FLATPAK_REPO_DEST as any) = `../${FLATPAK_REPO_DEST}`;
 
 const files = [
   {
@@ -34,6 +35,7 @@ describe("Test ActionFlatpak", () => {
       (path: any, data: any) => new Promise((res, rej) => res())
     );
 
+    (flatpak as any).push = jest.fn().mockReturnValue({});
     (flatpak as any).getPaths = jest.fn().mockReturnValue({
       repoPath: `${process.cwd()}/testData/flatpak`,
       ymlFilePath: `${process.cwd()}/testData/flatpak/io.github.Figma_Linux.figma_linux.yml`,
@@ -70,13 +72,10 @@ describe("Test ActionFlatpak", () => {
         }
       ),
     ]);
-    await fs.promises.rm(
-      path.resolve(process.cwd(), `../${FLATPAK_REPO_DEST}`),
-      {
-        force: true,
-        recursive: true,
-      }
-    );
+    await fs.promises.rm(path.resolve(process.cwd(), FLATPAK_REPO_DEST), {
+      force: true,
+      recursive: true,
+    });
 
     expect(ymlDumpSpy).toHaveBeenCalledTimes(1);
     expect(ymlDumpSpy.mock.calls[0][0].modules[0].sources[0].url).toEqual(
