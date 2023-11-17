@@ -1,11 +1,11 @@
-name: Upload to AUR
+name: AUR GIT
 
 on: workflow_call
 
 jobs:
   upload_aur:
     environment: Main
-    name: Upload to AUR
+    name: AUR GIT
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project

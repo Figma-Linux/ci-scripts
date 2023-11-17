@@ -9,25 +9,25 @@ jobs:
     secrets: inherit
 
   aur:
-    name: Upload to AUR
+    name: Upload
     uses: ./.github/workflows/reuse_aur.yml
     secrets: inherit
     needs: setup
 
   aur_bin:
-    name: Upload to AUR BIN
+    name: Upload
     uses: ./.github/workflows/reuse_aur_bin.yml
     secrets: inherit
     needs: setup
 
   aur_git:
-    name: Upload to AUR GIT
+    name: Upload
     uses: ./.github/workflows/reuse_aur_git.yml
     secrets: inherit
     needs: setup
 
   aur_dev_git:
-    name: Upload to AUR DEV GIT
+    name: Upload
     uses: ./.github/workflows/reuse_aur_dev_git.yml
     secrets: inherit
     needs: setup
