@@ -57,13 +57,13 @@ describe("Test ActionAurGitDev", () => {
       pkgver: "0.11.0.r37.gb297c52",
       pkgrel: "0",
       arch: ["any"],
-      source: ['${_pkgname}"::"git+${url}.git#branch=dev'],
+      source: ['figma-linux"::"git+${url}.git#branch=dev'],
       sha256sums: ["SKIP"],
     };
 
     expect(pkgGenerator.config).toMatchObject({
-      _pkgname: "figma-linux",
-      pkgname: "${_pkgname}-git-dev",
+      _pkgname: "figma-linux-dev",
+      pkgname: "${_pkgname}-git",
       _pkgver: "0.11.0",
       pkgdesc:
         "The collaborative interface design tool. Unofficial Figma desktop client for Linux",
@@ -71,20 +71,20 @@ describe("Test ActionAurGitDev", () => {
       license: ["GPL2"],
       depends: ["hicolor-icon-theme"],
       makedepends: ["git", "nodejs>=18.11.18", "npm>=9.8.1", "xdg-utils"],
-      conflicts: ["figma-linux", "figma-linux-bin", "figma-linux-git"],
-      provides: ["${_pkgname}"],
+      conflicts: [],
+      provides: ["figma-linux"],
       ...config,
     });
     expect(srcInfoGenerator.config).toMatchObject({
-      pkgbase: "figma-linux-git-dev",
-      pkgname: "figma-linux-git-dev",
+      pkgbase: "figma-linux-dev-git",
+      pkgname: "figma-linux-dev-git",
       pkgdesc:
         "The collaborative interface design tool. Unofficial Figma desktop client for Linux",
       url: "https://github.com/Figma-Linux/figma-linux",
       license: ["GPL2"],
       depends: ["hicolor-icon-theme"],
       makedepends: ["git", "nodejs>=18.11.18", "npm>=9.8.1", "xdg-utils"],
-      conflicts: ["figma-linux", "figma-linux-bin", "figma-linux-git"],
+      conflicts: [],
       provides: ["figma-linux"],
       ...config,
       source: [

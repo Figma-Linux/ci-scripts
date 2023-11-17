@@ -71,8 +71,8 @@ describe("Test ActionAurGit", () => {
       license: ["GPL2"],
       depends: ["hicolor-icon-theme"],
       makedepends: ["git", "nodejs>=18.11.18", "npm>=9.8.1", "xdg-utils"],
-      conflicts: ["figma-linux", "figma-linux-bin", "figma-linux-git-dev"],
-      provides: ["${_pkgname}"],
+      conflicts: ["figma-linux", "figma-linux-bin"],
+      provides: ["figma-linux"],
       ...config,
     });
     expect(srcInfoGenerator.config).toMatchObject({
@@ -84,7 +84,7 @@ describe("Test ActionAurGit", () => {
       license: ["GPL2"],
       depends: ["hicolor-icon-theme"],
       makedepends: ["git", "nodejs>=18.11.18", "npm>=9.8.1", "xdg-utils"],
-      conflicts: ["figma-linux", "figma-linux-bin", "figma-linux-git-dev"],
+      conflicts: ["figma-linux", "figma-linux-bin"],
       provides: ["figma-linux"],
       ...config,
       source: [

@@ -69,7 +69,7 @@ export default class extends BaseAction {
       arch: ["x86_64", "aarch64"],
       source: sources,
       sha256sums,
-      conflicts: ["figma-linux", "figma-linux-git", "figma-linux-git-dev"],
+      conflicts: ["figma-linux", "figma-linux-git"],
     };
 
     sourcesApp.forEach((file, index) => {
