@@ -113,12 +113,7 @@ export default class extends BaseAction {
       ["commit", "-m", `"Publish release v${newVersion}"`],
       { cwd: root }
     );
-    await Exec.exec(
-      "git",
-      ["tag", "-a", `v${newVersion}`, "-m", `"Publish release v${newVersion}"`],
-      { cwd: root }
-    );
-    await Exec.exec("git", ["push", "--tags", "origin", "master"], {
+    await Exec.exec("git", ["push", "origin", "master"], {
       cwd: root,
     });
   }
