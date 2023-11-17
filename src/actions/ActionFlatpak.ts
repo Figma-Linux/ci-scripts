@@ -4,6 +4,7 @@ import { resolve } from "path";
 import * as crypto from "crypto";
 import * as jsYaml from "js-yaml";
 import { Builder, parseStringPromise } from "xml2js";
+import * as Core from "@actions/core";
 import * as Exec from "@actions/exec";
 import BaseAction from "../utils/BaseAction";
 import {
@@ -103,23 +104,37 @@ export default class extends BaseAction {
 
   private async push(newVersion: string, root: string) {
     const branch = `update-to-${newVersion}`;
+    const onStderr = (data: Buffer) => {
+      Core.error(data.toString());
+    };
 
     await Exec.exec("git", ["checkout", "-b", branch], {
       cwd: root,
+      listeners: {
+        stderr: onStderr,
+      },
     });
-    await Exec.exec("git", ["add", "."], { cwd: root });
+    await Exec.exec("git", ["add", "."], {
+      cwd: root,
+      listeners: {
+        stderr: onStderr,
+      },
+    });
     await Exec.exec(
       "git",
       ["commit", "-m", `"Publish release v${newVersion}"`],
-      { cwd: root }
-    );
-    await Exec.exec(
-      "git",
-      ["tag", "-a", `v${newVersion}`, "-m", `"Publish release v${newVersion}"`],
-      { cwd: root }
+      {
+        cwd: root,
+        listeners: {
+          stderr: onStderr,
+        },
+      }
     );
     await Exec.exec("git", ["push", "--tags", "origin", branch], {
       cwd: root,
+      listeners: {
+        stderr: onStderr,
+      },
     });
 
     await this.baseClient.createPR({
