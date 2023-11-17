@@ -120,9 +120,11 @@ export default class extends BaseAction {
 
     return {
       pkgver: lines
-        .find((l) => /pkgver=".+"/.test(l))!
+        .find((l) => /pkgver="?.+"?/.test(l))!
         .match(VERSION_REGEXP)![0],
-      pkgrel: lines.find((l) => /pkgrel=".+"/.test(l))!.match(/[0-9]{1,5}/)![0],
+      pkgrel: lines
+        .find((l) => /pkgrel="?.+"?/.test(l))!
+        .match(/[0-9]{1,5}/)![0],
     };
   }
 }
