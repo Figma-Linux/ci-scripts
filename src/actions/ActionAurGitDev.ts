@@ -54,7 +54,7 @@ export default class extends BaseAction {
       _pkgver: newVersion,
       pkgrel: newPkgrel,
       arch: ["any"],
-      source: ['figma-linux"::"git+${url}.git#branch=dev'],
+      source: ['figma-linux-dev"::"git+${url}.git#branch=dev'],
       sha256sums: ["SKIP"],
     };
     const srcInfoConfig: BaseConfig = {
@@ -62,7 +62,7 @@ export default class extends BaseAction {
       pkgbase: "figma-linux-dev-git",
       pkgname: "figma-linux-dev-git",
       source: [
-        `figma-linux::git+https://github.com/Figma-Linux/figma-linux.git#branch=dev`,
+        `figma-linux-dev::git+https://github.com/Figma-Linux/figma-linux.git#branch=dev`,
       ],
     };
 

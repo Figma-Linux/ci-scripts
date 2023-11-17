@@ -87,11 +87,11 @@ export default class FigmaGitPkgBuild extends BaseGenerator {
   install -Dm644 "\${srcdir}/\${_pkgname}/resources/\${_pkgname}.desktop" -t "\${pkgdir}/usr/share/applications"
 
   mkdir -p "\${pkgdir}/opt/\${_pkgname}"
-  chmod 755 "\${srcdir}/\${_pkgname}/out/linux-unpacked/\${_pkgname}"
+  chmod 755 "\${srcdir}/\${_pkgname}/out/linux-unpacked/figma-linux"
   cp -rf \${srcdir}/\${_pkgname}/out/linux-unpacked/* \${pkgdir}/opt/\${_pkgname}
 
   mkdir -p "\${pkgdir}/usr/bin"
-  ln -s "/opt/\${_pkgname}/\${_pkgname}" "\${pkgdir}/usr/bin/\${_pkgname}"
+  ln -s "/opt/\${_pkgname}/figma-linux" "\${pkgdir}/usr/bin/\${_pkgname}"
 
   xdg-mime default \${_pkgname}.desktop x-scheme-handler/figma
 }`;

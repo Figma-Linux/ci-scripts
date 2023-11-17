@@ -57,7 +57,7 @@ describe("Test ActionAurGitDev", () => {
       pkgver: "0.11.0.r37.gb297c52",
       pkgrel: "0",
       arch: ["any"],
-      source: ['figma-linux"::"git+${url}.git#branch=dev'],
+      source: ['figma-linux-dev"::"git+${url}.git#branch=dev'],
       sha256sums: ["SKIP"],
     };
 
@@ -86,7 +86,7 @@ describe("Test ActionAurGitDev", () => {
       provides: ["figma-linux"],
       ...config,
       source: [
-        `figma-linux::git+https://github.com/Figma-Linux/figma-linux.git#branch=dev`,
+        `figma-linux-dev::git+https://github.com/Figma-Linux/figma-linux.git#branch=dev`,
       ],
     });
 
