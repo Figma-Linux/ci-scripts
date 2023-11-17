@@ -56,7 +56,6 @@ export default class extends BaseAction {
       arch: ["any"],
       source: ['figma-linux"::"git+${url}.git#branch=dev'],
       sha256sums: ["SKIP"],
-      conflicts: [],
     };
     const srcInfoConfig: BaseConfig = {
       ...pkgConfig,

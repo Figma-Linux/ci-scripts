@@ -71,7 +71,6 @@ describe("Test ActionAurGitDev", () => {
       license: ["GPL2"],
       depends: ["hicolor-icon-theme"],
       makedepends: ["git", "nodejs>=18.11.18", "npm>=9.8.1", "xdg-utils"],
-      conflicts: [],
       provides: ["figma-linux"],
       ...config,
     });
@@ -84,7 +83,6 @@ describe("Test ActionAurGitDev", () => {
       license: ["GPL2"],
       depends: ["hicolor-icon-theme"],
       makedepends: ["git", "nodejs>=18.11.18", "npm>=9.8.1", "xdg-utils"],
-      conflicts: [],
       provides: ["figma-linux"],
       ...config,
       source: [
